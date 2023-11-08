@@ -2,7 +2,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const port = process.env.PORT || 3000
 
@@ -14,6 +14,8 @@ app.use(express.json())
 // study-group
 // assignmentCollection
 // assignment
+
+
 
 
 
@@ -34,8 +36,70 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    const assignmentCollection = client.db('assignmentCollection').collection('assignment')
+   app.post('/assignment', async(req, res)=> {
+    const body = req.body
+    const result = await assignmentCollection.insertOne(body)
+    res.send(result)
+   })
+
+   app.get('/assignment', async(req, res) => {
+    const result = await assignmentCollection.find().toArray()
+    res.send(result)
+   })
+
+
+   app.get('/assignment/:id', async(req, res) => {
+    const id = req.params.id
+    const query = {_id : new ObjectId(id)}
+    const result = await assignmentCollection.findOne(query)
+    res.send(result)
+   })
+
+
    
 
+
+   // update 
+   app.get('/updateAssignment/:id', async(req, res) => {
+    const id = req.params.id
+    const query = {_id : new ObjectId(id)}
+    const result = await assignmentCollection.findOne(query)
+    res.send(result)
+   })
+
+
+
+
+   app.put('/updateAssignment/:id' , async(req,res) => {
+    const id =req.params.id
+    console.log(id);
+    const filter = {_id : new ObjectId(id)}
+    const updateDoc = req.body;
+    const  assignment = {
+      $set : {
+        title : updateDoc.title,
+        assignmentMarks : updateDoc.assignmentMarks,
+        description : updateDoc.description,
+        imageURL : updateDoc.imageURL
+      }
+    }
+    const result = await assignmentCollection.updateOne(filter,assignment )
+    res.send(result)
+  })
+
+
+
+
+
+  // delete 
+   app.delete('/assignments/:id', async(req, res) => {
+    const id = req.params.id
+    // console.log(id);
+    const query = { _id : new ObjectId(id)}
+    const result = await assignmentCollection.deleteOne(query)
+    res.send(result)
+   })
 
 
 
