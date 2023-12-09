@@ -1,5 +1,14 @@
 # Live link : https://study-group-a2964.web.app/
 
+> ## Technologies I used in this website : 
+
+ 
+ [![My Skills](https://skillicons.dev/icons?i=html,nextjs,mongodb)](https://skillicons.dev)
+
+
+
+
+
 ## Features of my website : 
 Certainly! Creating an educational website with features tailored to students' needs is a commendable endeavor. Here are some essential features you might consider incorporating into your website:
 
