@@ -4,16 +4,12 @@ const cors = require('cors')
 const app = express()
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 
 //middleware
 app.use(cors())
 app.use(express.json())
 
-// hbF1t7q3EVhxMcUA
-// study-group
-// assignmentCollection
-// assignment
 
 
 
@@ -37,6 +33,9 @@ async function run() {
     await client.connect();
 
     const assignmentCollection = client.db('assignmentCollection').collection('assignment')
+
+
+
    app.post('/assignment', async(req, res)=> {
     const body = req.body
     const result = await assignmentCollection.insertOne(body)
@@ -60,18 +59,16 @@ async function run() {
    
 
 
-   // update 
-   app.get('/updateAssignment/:id', async(req, res) => {
-    const id = req.params.id
-    const query = {_id : new ObjectId(id)}
-    const result = await assignmentCollection.findOne(query)
-    res.send(result)
-   })
+  // //  update 
+  //  app.get('/assignments/:id', async(req, res) => {
+  //   const id = req.params.id
+  //   const query = {_id : new ObjectId(id)}
+  //   const result = await assignmentCollection.findOne(query)
+  //   res.send(result)
+  //  })
 
 
-
-
-   app.put('/updateAssignment/:id' , async(req,res) => {
+   app.put('/assignment/:id' , async(req,res) => {
     const id =req.params.id
     console.log(id);
     const filter = {_id : new ObjectId(id)}
@@ -88,22 +85,14 @@ async function run() {
     res.send(result)
   })
 
-
-
-
-
   // delete 
    app.delete('/assignments/:id', async(req, res) => {
     const id = req.params.id
     // console.log(id);
     const query = { _id : new ObjectId(id)}
     const result = await assignmentCollection.deleteOne(query)
-    res.send(result)
+    res.send(result) 
    })
-
-
-
-
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -116,7 +105,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('CRUD  is running ......!')
+  res.send('CRUD  is running......!')
 })
 
 app.listen(port, () => {
