@@ -30,7 +30,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const assignmentCollection = client.db('assignmentCollection').collection('assignment')
 
@@ -84,6 +84,8 @@ async function run() {
     const result = await assignmentCollection.updateOne(filter,assignment )
     res.send(result)
   })
+
+
 
   // delete 
    app.delete('/assignments/:id', async(req, res) => {
